@@ -2,7 +2,7 @@
 <proxy name="SMSSenderProxy" startOnLoad="true" transports="https http" xmlns="http://ws.apache.org/ns/synapse">
     <target>
         <endpoint>
-            <address uri="rabbitmq:/SMSStore?rabbitmq.server.host.name=localhost&amp;rabbitmq.server.port=5672&amp;rabbitmq.server.user.name=admin&amp;rabbitmq.server.password=admin&amp;rabbitmq.queue.name=SMSStore">
+            <address uri="rabbitmq:/SMSStore?rabbitmq.server.host.name=localhost&amp;rabbitmq.server.port=5672&amp;rabbitmq.server.user.name=guest&amp;rabbitmq.server.password=guest&amp;rabbitmq.queue.name=SMSStore">
                 <suspendOnFailure>
                     <initialDuration>0</initialDuration>
                     <progressionFactor>1</progressionFactor>
