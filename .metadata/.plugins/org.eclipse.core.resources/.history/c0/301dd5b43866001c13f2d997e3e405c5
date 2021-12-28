@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<api context="/sample" name="TestRestAPI" xmlns="http://ws.apache.org/ns/synapse">
+    <resource methods="POST" uri-template="/rest-api">
+        <inSequence>
+            <log level="custom">
+                <property expression="json-eval($)" name="PAYLOAD"/>
+            </log>
+            <send>
+                <endpoint>
+                    <http method="get" uri-template="http://localhost:8080/services/SimpleStockQuoteService">
+                        <suspendOnFailure>
+                            <initialDuration>-1</initialDuration>
+                            <progressionFactor>-1</progressionFactor>
+                            <maximumDuration>0</maximumDuration>
+                        </suspendOnFailure>
+                        <markForSuspension>
+                            <retriesBeforeSuspension>0</retriesBeforeSuspension>
+                        </markForSuspension>
+                    </http>
+                </endpoint>
+            </send>
+        </inSequence>
+        <outSequence>
+            <log level="custom">
+                <property expression="json-eval($)" name="BACKEND RESPONSE"/>
+            </log>
+            <send/>
+        </outSequence>
+        <faultSequence/>
+    </resource>
+    <resource methods="GET" uri-template="/rest-api-v2">
+        <inSequence>
+            <log level="custom">
+                <property expression="json-eval($)" name="PAYLOAD"/>
+            </log>
+            <send>
+                <endpoint>
+                    <http method="get" uri-template="http://localhost:8080/services/SimpleStockQuoteService">
+                        <suspendOnFailure>
+                            <initialDuration>-1</initialDuration>
+                            <progressionFactor>-1</progressionFactor>
+                            <maximumDuration>0</maximumDuration>
+                        </suspendOnFailure>
+                        <markForSuspension>
+                            <retriesBeforeSuspension>0</retriesBeforeSuspension>
+                        </markForSuspension>
+                    </http>
+                </endpoint>
+            </send>
+        </inSequence>
+        <outSequence>
+            <log level="custom">
+                <property expression="json-eval($)" name="BACKEND RESPONSE"/>
+            </log>
+            <send/>
+        </outSequence>
+        <faultSequence/>
+    </resource>
+</api>

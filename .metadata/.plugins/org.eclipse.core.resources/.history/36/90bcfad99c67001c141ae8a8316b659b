@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<api context="/custom-mediator" name="CustomMediator" xmlns="http://ws.apache.org/ns/synapse">
+    <resource methods="GET" uri-template="/api/v1/{id}">
+        <inSequence>
+            <log level="full"/>
+        </inSequence>
+        <outSequence/>
+        <faultSequence/>
+    </resource>
+    <handlers>
+        <handler class="com.bits.esb.BasicAuthHandler"/>
+    </handlers>
+</api>

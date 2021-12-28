@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?><artifacts>
+    <artifact name="TestRestAPI" groupId="com.example.api" version="1.0.0" type="synapse/api" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/api/TestRestAPI.xml</file>
+    </artifact>
+    <artifact name="TestRestAPI_swagger" groupId="com.example.metadata" version="1.0.0" type="synapse/metadata" serverRole="EnterpriseServiceBus">
+        <file>src/main/resources/metadata/TestRestAPI_swagger.yaml</file>
+    </artifact>
+    <artifact name="TestRestAPI_metadata" groupId="com.example.metadata" version="1.0.0" type="synapse/metadata" serverRole="EnterpriseServiceBus">
+        <file>src/main/resources/metadata/TestRestAPI_metadata.yaml</file>
+    </artifact>
+    <artifact name="TestDS" groupId="com.example.api" version="1.0.0" type="synapse/api" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/api/TestDS.xml</file>
+    </artifact>
+    <artifact name="TestDS_swagger" groupId="com.example.metadata" version="1.0.0" type="synapse/metadata" serverRole="EnterpriseServiceBus">
+        <file>src/main/resources/metadata/TestDS_swagger.yaml</file>
+    </artifact>
+    <artifact name="TestDS_metadata" groupId="com.example.metadata" version="1.0.0" type="synapse/metadata" serverRole="EnterpriseServiceBus">
+        <file>src/main/resources/metadata/TestDS_metadata.yaml</file>
+    </artifact>
+    <artifact name="LoadBalanceRestAPI" groupId="com.example.api" version="1.0.0" type="synapse/api" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/api/LoadBalanceRestAPI.xml</file>
+    </artifact>
+    <artifact name="LoadBalanceRestAPI_swagger" groupId="com.example.metadata" version="1.0.0" type="synapse/metadata" serverRole="EnterpriseServiceBus">
+        <file>src/main/resources/metadata/LoadBalanceRestAPI_swagger.yaml</file>
+    </artifact>
+    <artifact name="LoadBalanceRestAPI_metadata" groupId="com.example.metadata" version="1.0.0" type="synapse/metadata" serverRole="EnterpriseServiceBus">
+        <file>src/main/resources/metadata/LoadBalanceRestAPI_metadata.yaml</file>
+    </artifact>
+    <artifact name="SampleAsyncAPI" groupId="com.example.api" version="1.0.0" type="synapse/api" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/api/SampleAsyncAPI.xml</file>
+    </artifact>
+    <artifact name="SampleAsyncAPI_swagger" groupId="com.example.metadata" version="1.0.0" type="synapse/metadata" serverRole="EnterpriseServiceBus">
+        <file>src/main/resources/metadata/SampleAsyncAPI_swagger.yaml</file>
+    </artifact>
+    <artifact name="SampleAsyncAPI_metadata" groupId="com.example.metadata" version="1.0.0" type="synapse/metadata" serverRole="EnterpriseServiceBus">
+        <file>src/main/resources/metadata/SampleAsyncAPI_metadata.yaml</file>
+    </artifact>
+</artifacts>

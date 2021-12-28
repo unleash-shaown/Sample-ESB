@@ -1,0 +1,13 @@
+openapi: 3.0.1
+info:
+  title: SampleAsyncAPI
+  description: API Definition of SampleAsyncAPI
+  version: 1.0.0
+servers:
+- url: http://localhost:8290/async
+paths:
+  /:
+    post:
+      responses:
+        default:
+          description: Default response

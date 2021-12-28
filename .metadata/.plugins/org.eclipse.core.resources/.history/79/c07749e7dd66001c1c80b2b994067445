@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<api context="/ds" name="TestDS" xmlns="http://ws.apache.org/ns/synapse">
+    <resource methods="GET" uri-template="/customer">
+        <inSequence>
+            <header name="Action" scope="default" value="urn:getCustomerInfo"/>
+            <payloadFactory media-type="xml">
+                <format>
+                    <soapenv:Envelope xmlns:p="http://ws.wso2.org/dataservice/getCustomerInfo" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+                        <soapenv:Header/>
+                        <soapenv:Body>
+                            <p:getCustomerInfo>
+                                <p:email>$1</p:email>
+                            </p:getCustomerInfo>
+                        </soapenv:Body>
+                    </soapenv:Envelope>
+                </format>
+                <args>
+                    <arg evaluator="xml" expression="$url:email"/>
+                </args>
+            </payloadFactory>
+            <send>
+                <endpoint>
+                    <address format="soap11" uri="http://localhost:8290/services/GetTopupConfig">
+                        <suspendOnFailure>
+                            <initialDuration>-1</initialDuration>
+                            <progressionFactor>1</progressionFactor>
+                        </suspendOnFailure>
+                        <markForSuspension>
+                            <retriesBeforeSuspension>0</retriesBeforeSuspension>
+                        </markForSuspension>
+                    </address>
+                </endpoint>
+            </send>
+        </inSequence>
+        <outSequence>
+            <log level="full"/>
+            <send/>
+        </outSequence>
+        <faultSequence/>
+    </resource>
+</api>

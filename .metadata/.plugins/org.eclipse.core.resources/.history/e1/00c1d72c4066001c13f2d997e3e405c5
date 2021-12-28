@@ -1,0 +1,49 @@
+<data transports="http https local" name="GetTopupConfig">
+	<query id="getVendorIdentifier" useConfig="Datasource">
+		<sql>SELECT
+			tvc.identifier,
+			tvc.wallet
+			FROM topup_vendor_config tvc INNER JOIN telco_wise_topup_vendor tt ON
+			tt.vendor_config_id = tvc.id
+			WHERE tt.active = TRUE AND tt.operator = :operator
+		</sql>
+		<result outputType="json">{ "data": {"identifier": $identifier,
+			"wallet": $wallet} }</result>
+		<param name="operator" sqlType="STRING" />
+	</query>
+	<query id="getTopupConfig" useConfig="Datasource">
+		<sql>SELECT
+			id,
+			base_url,
+			user_name,
+			password,
+			auth_params,
+			token,
+			refresh_token,
+			token_type,
+			wallet
+			FROM topup_vendor_config
+			WHERE active = TRUE AND identifier =
+			:identifier
+		</sql>
+		<result outputType="json">{ "data": {"id": $id , "baseUrl": $base_url,
+			"userName": $user_name, "password": $password, "authParams":
+			$auth_params, "token": $token,
+			"refreshToken": $refresh_token, "tokenType": $token_type, "wallet": $wallet} }
+		</result>
+		<param name="identifier" sqlType="STRING" />
+	</query>
+	<operation name="getVendorIdentifier">
+		<call-query href="getVendorIdentifier">
+			<with-param name="operator" query-param="operator" />
+		</call-query>
+	</operation>
+	<operation name="getTopupConfig">
+		<call-query href="getTopupConfig">
+			<with-param name="identifier" query-param="identifier" />
+		</call-query>
+	</operation>
+	<config enableOData="false" id="Datasource">
+		<property name="carbon_datasource_name">WSO2_DB_POSTGRES</property>
+	</config>
+</data>

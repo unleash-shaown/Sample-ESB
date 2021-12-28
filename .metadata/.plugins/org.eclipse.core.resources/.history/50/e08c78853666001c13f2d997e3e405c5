@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<api context="/sample" name="TestRestAPI" xmlns="http://ws.apache.org/ns/synapse">
+    <resource methods="POST" uri-template="/rest-api">
+        <inSequence>
+            <log level="custom">
+                <property expression="json-eval($)" name="PAYLOAD"/>
+            </log>
+            <payloadFactory media-type="json">
+                <format>{
+"attr1": "Hello",
+"attr2": "World"
+}</format>
+                <args/>
+            </payloadFactory>
+            <respond/>
+        </inSequence>
+        <outSequence/>
+        <faultSequence/>
+    </resource>
+</api>

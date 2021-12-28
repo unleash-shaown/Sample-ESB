@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?><artifacts>
+    <artifact name="CustomMediator" groupId="com.example.api" version="1.0.0" type="synapse/api" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/api/CustomMediator.xml</file>
+    </artifact>
+    <artifact name="CustomMediator_swagger" groupId="com.example.metadata" version="1.0.0" type="synapse/metadata" serverRole="EnterpriseServiceBus">
+        <file>src/main/resources/metadata/CustomMediator_swagger.yaml</file>
+    </artifact>
+    <artifact name="CustomMediator_metadata" groupId="com.example.metadata" version="1.0.0" type="synapse/metadata" serverRole="EnterpriseServiceBus">
+        <file>src/main/resources/metadata/CustomMediator_metadata.yaml</file>
+    </artifact>
+    <artifact name="BASE_URL" groupId="com.example.local-entry" version="1.0.0" type="synapse/local-entry" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/local-entries/BASE_URL.xml</file>
+    </artifact>
+    <artifact name="SampleSequence" groupId="com.example.sequence" version="1.0.0" type="synapse/sequence" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/sequences/SampleSequence.xml</file>
+    </artifact>
+</artifacts>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<api context="/auth" name="BasicAuthAPI" xmlns="http://ws.apache.org/ns/synapse">
+    <resource methods="GET">
+        <inSequence/>
+        <outSequence/>
+        <faultSequence/>
+    </resource>
+    <handlers>
+        <handler class="org.wso2.micro.integrator.security.handler.RESTBasicAuthHandler"/>
+    </handlers>
+</api>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<api context="/auth" name="BasicAuthAPI" xmlns="http://ws.apache.org/ns/synapse">
+    <resource methods="GET">
+        <inSequence>
+            <log level="full"/>
+            <send/>
+        </inSequence>
+        <outSequence/>
+        <faultSequence>
+            <log level="custom">
+                <property expression="json-eval($)" name="BACKEND RESPONSE"/>
+            </log>
+            <send/>
+        </faultSequence>
+    </resource>
+    <handlers>
+        <handler class="org.wso2.micro.integrator.security.handler.RESTBasicAuthHandler"/>
+    </handlers>
+</api>

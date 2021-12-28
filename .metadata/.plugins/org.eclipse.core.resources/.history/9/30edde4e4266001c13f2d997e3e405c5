@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<api context="/sample" name="TestRestAPI" xmlns="http://ws.apache.org/ns/synapse">
+    <resource methods="POST" uri-template="/rest-api">
+        <inSequence>
+            <log level="custom">
+                <property expression="json-eval($)" name="PAYLOAD"/>
+            </log>
+            <send>
+                <endpoint>
+                    <http method="get" uri-template="http://localhost:8080/services/SimpleStockQuoteService">
+                        <suspendOnFailure>
+                            <initialDuration>-1</initialDuration>
+                            <progressionFactor>-1</progressionFactor>
+                            <maximumDuration>0</maximumDuration>
+                        </suspendOnFailure>
+                        <markForSuspension>
+                            <retriesBeforeSuspension>0</retriesBeforeSuspension>
+                        </markForSuspension>
+                    </http>
+                </endpoint>
+            </send>
+        </inSequence>
+        <outSequence>
+            <log level="custom">
+                <property expression="json-eval($)" name="BACKEND RESPONSE"/>
+            </log>
+            <send/>
+        </outSequence>
+        <faultSequence/>
+    </resource>
+    <resource methods="GET" uri-template="/rest-api-v2">
+        <inSequence>
+            <throttle id="SampleId">
+                <policy>
+                    <wsp:Policy wsu:id="WSO2MediatorThrottlingPolicy" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
+                        <throttle:MediatorThrottleAssertion xmlns:throttle="http://www.wso2.org/products/wso2commons/throttle">
+                            <throttle:MaximumConcurrentAccess>0</throttle:MaximumConcurrentAccess>
+                            <wsp:Policy>
+                                <throttle:ID throttle:type="IP">other</throttle:ID>
+                                <wsp:Policy>
+                                    <throttle:Control>
+                                        <wsp:Policy>
+                                            <throttle:MaximumCount>100</throttle:MaximumCount>
+                                            <throttle:UnitTime>1000</throttle:UnitTime>
+                                            <throttle:ProhibitTimePeriod>0</throttle:ProhibitTimePeriod>
+                                        </wsp:Policy>
+                                    </throttle:Control>
+                                </wsp:Policy>
+                            </wsp:Policy>
+                        </throttle:MediatorThrottleAssertion>
+                    </wsp:Policy>
+                </policy>
+                <onReject>
+                    <payloadFactory media-type="json">
+                        <format>{
+"message" :"Please retry later"
+}</format>
+                        <args/>
+                    </payloadFactory>
+                    <property name="HTTP_SC" scope="axis2" type="STRING" value="400"/>
+                    <respond/>
+                </onReject>
+                <onAccept>
+                    <log/>
+                    <send>
+                        <endpoint>
+                            <http method="get">
+                                <suspendOnFailure>
+                                    <initialDuration>-1</initialDuration>
+                                    <progressionFactor>-1</progressionFactor>
+                                    <maximumDuration>0</maximumDuration>
+                                </suspendOnFailure>
+                                <markForSuspension>
+                                    <retriesBeforeSuspension>0</retriesBeforeSuspension>
+                                </markForSuspension>
+                            </http>
+                        </endpoint>
+                    </send>
+                </onAccept>
+            </throttle>
+        </inSequence>
+        <outSequence>
+            <log/>
+            <send/>
+        </outSequence>
+        <faultSequence/>
+    </resource>
+</api>

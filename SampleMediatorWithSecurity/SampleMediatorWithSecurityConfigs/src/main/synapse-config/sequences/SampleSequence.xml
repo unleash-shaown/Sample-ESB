@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sequence name="SampleSequence" trace="disable" xmlns="http://ws.apache.org/ns/synapse">
+    <class name="com.bits.esb.HashGenerator"/>
+    <property action="remove" name="REST_URL_POSTFIX" scope="axis2"/>
+    <script language="js"><![CDATA[var hash  = mc.getProperty("HASHED_VALUE");
+hash += "-hello-bits";
+mc.setProperty("HASHED_VALUE", hash.toString());]]></script>
+    <property expression="get-property('registry', 'BASE_URL')" name="uri.var.BASE_URL" scope="default" type="STRING"/>
+    <send>
+        <endpoint>
+            <http method="get" uri-template="{uri.var.BASE_URL}/services/SimpleStockQuoteService">
+                <suspendOnFailure>
+                    <initialDuration>-1</initialDuration>
+                    <progressionFactor>-1</progressionFactor>
+                    <maximumDuration>0</maximumDuration>
+                </suspendOnFailure>
+                <markForSuspension>
+                    <retriesBeforeSuspension>0</retriesBeforeSuspension>
+                </markForSuspension>
+            </http>
+        </endpoint>
+    </send>
+</sequence>

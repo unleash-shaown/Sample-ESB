@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<proxy name="SmsProxyService" startOnLoad="true" transports="http https" xmlns="http://ws.apache.org/ns/synapse">
+    <target>
+        <inSequence>
+            <log level="custom">
+                <property expression="json-eval($)" name="SMS REQUEST"/>
+            </log>
+            <property expression="json-eval($.recipient)" name="RECIPIENT" scope="default" type="STRING"/>
+            <property expression="json-eval($.body)" name="BODY" scope="default" type="STRING"/>
+            <property expression="json-eval($.ref)" name="REF" scope="default" type="STRING"/>
+            <property expression="json-eval($.ref)" name="NOW" scope="default" type="STRING"/>
+            <payloadFactory media-type="xml">
+                <format>
+                    <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:v1="http://bracbank.com/UBASendNotificationES/V1" xmlns:v11="http://bracbank.com/utilityCommon/V1">
+                        <soapenv:Header/>
+                        <soapenv:Body>
+                            <v1:sendNotification>
+                                <v1:sendNotificationDetails>
+                                    <v1:header>
+                                        <v11:channelName>$1</v11:channelName>
+                                        <v11:channelCode>$2</v11:channelCode>
+                                        <v11:serviceId>$3</v11:serviceId>
+                                        <v11:password>$4</v11:password>
+                                        <v11:serviceName>SendNotification</v11:serviceName>
+                                        <v11:sourceTimestamp>2020-04-03T07:49:45</v11:sourceTimestamp>
+                                        <v11:globalTransactionId>$8</v11:globalTransactionId>
+                                    </v1:header>
+                                    <v1:cif/>
+                                    <v1:mobileNumber>$6</v1:mobileNumber>
+                                    <v1:smsCode>$5</v1:smsCode>
+                                    <v1:costCenter/>
+                                    <v1:smsTemplate>$7</v1:smsTemplate>
+                                    <v1:smsRemarks/>
+                                    <v1:accountOrCardNumber/>
+                                </v1:sendNotificationDetails>
+                            </v1:sendNotification>
+                        </soapenv:Body>
+                    </soapenv:Envelope>
+                </format>
+                <args>
+                    <arg evaluator="xml" expression="get-property('registry', 'SMS_CHANNEL_NAME')"/>
+                    <arg evaluator="xml" expression="get-property('registry', 'SMS_CHANNEL_CODE')"/>
+                    <arg evaluator="xml" expression="get-property('registry', 'SMS_SERVICE_ID')"/>
+                    <arg evaluator="xml" expression="get-property('registry', 'SMS_PASSWORD')"/>
+                    <arg evaluator="xml" expression="get-property('registry', 'SMS_CODE')"/>
+                    <arg evaluator="xml" expression="$ctx:RECIPIENT"/>
+                    <arg evaluator="xml" expression="$ctx:BODY"/>
+                    <arg evaluator="xml" expression="$ctx:REF"/>
+                    <arg evaluator="xml" expression="get-property(&quot;SYSTEM_DATE&quot;, &quot;yyyy-MM-dd G 'at' HH:mm:ss z&quot;)"/>
+                </args>
+            </payloadFactory>
+            <header name="SOAPAction" scope="transport" value="getAccountDetails"/>
+            <property expression="get-property('registry', 'SMS_ENDPOINT')" name="uri.var.SMS_ENDPOINT" scope="default" type="STRING"/>
+            <send>
+                <endpoint>
+                    <http uri-template="{uri.var.SMS_ENDPOINT}">
+                        <suspendOnFailure>
+                            <initialDuration>-1</initialDuration>
+                            <progressionFactor>1</progressionFactor>
+                        </suspendOnFailure>
+                        <markForSuspension>
+                            <retriesBeforeSuspension>0</retriesBeforeSuspension>
+                        </markForSuspension>
+                    </http>
+                </endpoint>
+            </send>
+        </inSequence>
+        <outSequence>
+            <send/>
+        </outSequence>
+        <faultSequence>
+            <log level="custom">
+                <property name="ESB FAULT" value="SMS RESPONSE"/>
+            </log>
+            <log category="FATAL" level="full"/>
+        </faultSequence>
+    </target>
+</proxy>

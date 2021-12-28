@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<api context="/loadbalance" name="LoadBalanceRestAPI" xmlns="http://ws.apache.org/ns/synapse">
+    <resource methods="GET" uri-template="/rest-api">
+        <inSequence>
+            <log/>
+            <property action="remove" name="REST_URL_POSTFIX" scope="axis2"/>
+            <send>
+                <endpoint>
+                    <loadbalance algorithm="org.apache.synapse.endpoints.algorithms.RoundRobin">
+                        <endpoint>
+                            <address uri="http://localhost:8080/services/SimpleStockQuoteService">
+                                <suspendOnFailure>
+                                    <initialDuration>-1</initialDuration>
+                                    <progressionFactor>1</progressionFactor>
+                                    <maximumDuration>0</maximumDuration>
+                                </suspendOnFailure>
+                                <markForSuspension>
+                                    <retriesBeforeSuspension>0</retriesBeforeSuspension>
+                                </markForSuspension>
+                            </address>
+                        </endpoint>
+                        <endpoint>
+                            <address uri="http://localhost:8090/services/SimpleStockQuoteService">
+                                <suspendOnFailure>
+                                    <initialDuration>-1</initialDuration>
+                                    <progressionFactor>1</progressionFactor>
+                                    <maximumDuration>0</maximumDuration>
+                                </suspendOnFailure>
+                                <markForSuspension>
+                                    <retriesBeforeSuspension>0</retriesBeforeSuspension>
+                                </markForSuspension>
+                            </address>
+                        </endpoint>
+                    </loadbalance>
+                    <session type="simpleClientSession"/>
+                </endpoint>
+            </send>
+        </inSequence>
+        <outSequence>
+            <log/>
+            <send/>
+        </outSequence>
+        <faultSequence/>
+    </resource>
+    <resource methods="POST" uri-template="/rest-api">
+        <inSequence>
+            <log/>
+            <property action="remove" name="REST_URL_POSTFIX" scope="axis2"/>
+            <send>
+                <endpoint>
+                    <failover>
+                        <endpoint>
+                            <address uri="http://localhost:8081/services/SimpleStockQuoteService">
+                                <suspendOnFailure>
+                                    <initialDuration>-1</initialDuration>
+                                    <progressionFactor>-1</progressionFactor>
+                                    <maximumDuration>0</maximumDuration>
+                                </suspendOnFailure>
+                                <markForSuspension>
+                                    <retriesBeforeSuspension>0</retriesBeforeSuspension>
+                                </markForSuspension>
+                            </address>
+                        </endpoint>
+                        <endpoint>
+                            <address uri="http://localhost:8080/services/SimpleStockQuoteService">
+                                <suspendOnFailure>
+                                    <initialDuration>-1</initialDuration>
+                                    <progressionFactor>-1</progressionFactor>
+                                    <maximumDuration>0</maximumDuration>
+                                </suspendOnFailure>
+                                <markForSuspension>
+                                    <retriesBeforeSuspension>0</retriesBeforeSuspension>
+                                </markForSuspension>
+                            </address>
+                        </endpoint>
+                    </failover>
+                </endpoint>
+            </send>
+        </inSequence>
+        <outSequence>
+            <log/>
+            <send/>
+        </outSequence>
+        <faultSequence>
+            <log level="full"/>
+        </faultSequence>
+    </resource>
+</api>

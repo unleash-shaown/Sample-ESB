@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<proxy name="SampleAsyncListener" startOnLoad="true" transports="jms" xmlns="http://ws.apache.org/ns/synapse">
+    <target>
+        <inSequence>
+            <log level="custom">
+                <property expression="json-eval($)" name="LISTENER BODY"/>
+            </log>
+            <property expression="json-eval($.code)" name="uri.var.CODE" scope="default" type="STRING"/>
+            <property expression="json-eval($.status)" name="uri.var.STATUS" scope="default" type="STRING"/>
+        </inSequence>
+        <outSequence/>
+        <faultSequence/>
+    </target>
+</proxy>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<api context="/custom-mediator" name="CustomMediator" xmlns="http://ws.apache.org/ns/synapse">
+    <resource methods="GET" uri-template="/api/v1/{text}">
+        <inSequence>
+            <log level="full"/>
+            <property expression="get-properrty('uri.var.text')" name="INPUT_TEXT" scope="default" type="STRING"/>
+            <class name="com.bits.esb.HashGenerator"/>
+            <send>
+                <endpoint>
+                    <http method="get">
+                        <suspendOnFailure>
+                            <initialDuration>-1</initialDuration>
+                            <progressionFactor>-1</progressionFactor>
+                            <maximumDuration>0</maximumDuration>
+                        </suspendOnFailure>
+                        <markForSuspension>
+                            <retriesBeforeSuspension>0</retriesBeforeSuspension>
+                        </markForSuspension>
+                    </http>
+                </endpoint>
+            </send>
+        </inSequence>
+        <outSequence/>
+        <faultSequence/>
+    </resource>
+    <handlers>
+        <handler class="com.bits.esb.BasicAuthHandler"/>
+    </handlers>
+</api>

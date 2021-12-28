@@ -1,0 +1,10 @@
+---
+key: "SampleAsyncAPI-1.0.0"
+name : "SampleAsyncAPI"
+displayName : "SampleAsyncAPI"
+description: "Sample API"
+version: "1.0.0"
+serviceUrl: "https://{MI_HOST}:{MI_PORT}/async"
+definitionType: "OAS3"
+securityType: "BASIC"
+mutualSSLEnabled: false

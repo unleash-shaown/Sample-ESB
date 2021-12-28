@@ -1,0 +1,17 @@
+<data transports="http https local" name="GetTopupConfig">
+	<query id="getCustomerInfo" useConfig="Datasource">
+		<sql>SELECT id, full_name, email FROM testdb.public.customer WHERE email = :email
+		</sql>
+		<result outputType="json">{ "data": {"Name": $full_name,
+			"Email": $email} }</result>
+		<param name="email" sqlType="STRING" />
+	</query>
+	<operation name="getCustomerInfo">
+		<call-query href="getCustomerInfo">
+			<with-param name="email" query-param="email" />
+		</call-query>
+	</operation>
+	<config enableOData="false" id="Datasource">
+		<property name="carbon_datasource_name">WSO2_DB_POSTGRES</property>
+	</config>
+</data>

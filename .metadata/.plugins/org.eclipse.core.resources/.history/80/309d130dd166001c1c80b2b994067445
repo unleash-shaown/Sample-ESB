@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<api context="/loadbalance" name="LoadBalanceRestAPI" xmlns="http://ws.apache.org/ns/synapse">
+    <resource methods="GET">
+        <inSequence>
+            <log/>
+            <call>
+                <endpoint>
+                    <loadbalance algorithm="org.apache.synapse.endpoints.algorithms.RoundRobin"/>
+                    <session type="http"/>
+                </endpoint>
+            </call>
+        </inSequence>
+        <outSequence>
+            <log/>
+            <send/>
+        </outSequence>
+        <faultSequence/>
+    </resource>
+</api>

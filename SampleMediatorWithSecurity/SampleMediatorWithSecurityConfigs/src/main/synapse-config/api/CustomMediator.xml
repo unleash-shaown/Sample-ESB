@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<api context="/custom-mediator" name="CustomMediator" xmlns="http://ws.apache.org/ns/synapse">
+    <resource methods="GET" uri-template="/api/v1/{text}">
+        <inSequence>
+            <log level="full"/>
+            <property expression="get-property('uri.var.text')" name="INPUT_TEXT" scope="default" type="STRING"/>
+            <sequence key="SampleSequence"/>
+        </inSequence>
+        <outSequence>
+            <log/>
+            <payloadFactory media-type="json">
+                <format>{
+	"hash": "$1",
+    "message": "$2",
+    "port": $3,
+    "time": "$4"
+}</format>
+                <args>
+                    <arg evaluator="xml" expression="get-property('HASHED_VALUE')"/>
+                    <arg evaluator="json" expression="$.message"/>
+                    <arg evaluator="json" expression="$.port"/>
+                    <arg evaluator="json" expression="$.callTime"/>
+                </args>
+            </payloadFactory>
+            <send/>
+        </outSequence>
+        <faultSequence/>
+    </resource>
+    <handlers>
+        <handler class="com.bits.esb.BasicAuthHandler"/>
+    </handlers>
+</api>
